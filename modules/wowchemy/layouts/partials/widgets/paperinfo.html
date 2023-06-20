@@ -1,0 +1,39 @@
+{{ $st := .page }}
+{{ $columns := $st.Params.design.columns | default "2" }}
+
+{{ if ne $columns "1" }}
+  <div class="col-12 col-lg-8">
+    {{ $st.Content }}
+  </div>
+{{ else }}
+  <div class="col-12">
+    <div style="text-align: justify"> 
+      <table id="paperinfo" class="table table-bordered text-center" style="width: 100%;">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center align-middle">Journal</th>
+            <th scope="col" class="text-center align-middle">Year</th>
+            <th scope="col" class="text-center align-middle">JIF</th>
+            <th scope="col" class="text-center align-middle">Sector</th>
+            <th scope="col" class="text-center align-middle">Q</th>
+            <th scope="col" class="text-center align-middle">Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ $data := getJSON "data/paperinfo.json"}}
+            {{ range $data }}
+              <tr style="font-size: smaller;">
+                <td class="text-center align-middle">{{ .journal | upper }}</td>
+                <td class="text-center align-middle">{{ .year }}</td>
+                <td class="text-center align-middle">{{ .impactIndex }}</td>
+                <td class="text-center align-middle">{{ .sector | upper}}</td>
+                <td class="text-center align-middle">Q{{ .q | upper }}</td>
+                <td class="text-center align-middle">{{ .position }}</td>
+              </tr>
+            {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{{ end }}
+
